@@ -5,8 +5,32 @@ import type { PageContextCommon } from './types';
 import 'pretendard/dist/web/static/pretendard.css';
 import './PageShell.css';
 import { Link } from './Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
+import { linkContainer } from '../styles/Common';
 
 export { PageShell };
+
+// MUI Custom Theme
+const theme = createTheme({
+  typography: {
+    allVariants: {
+      fontFamily: [
+        'Pretendard',
+        '-apple-system',
+        'BlinkMacSystemFont',
+        'Segoe UI',
+        'Roboto',
+        'Helvetica Neue',
+        'Arial',
+        'sans-serif',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+      ].join(','),
+    },
+  },
+});
 
 function PageShell({
   children,
@@ -17,23 +41,79 @@ function PageShell({
 }) {
   return (
     <React.StrictMode>
-      <PageContextProvider pageContext={pageContext}>
-        <Layout>
-          <Sidebar>
-            <Logo />
-            <Link className="navitem" href="/">
-              Home
-            </Link>
-            <Link className="navitem" href="/about">
-              About
-            </Link>
-            <Link className="navitem" href="/test">
-              Test
-            </Link>
-          </Sidebar>
-          <Content>{children}</Content>
-        </Layout>
-      </PageContextProvider>
+      <ThemeProvider theme={theme}>
+        <PageContextProvider pageContext={pageContext}>
+          <header>
+            <Box sx={{ flexGrow: 1 }}>
+              <AppBar
+                position="static"
+                color="default"
+                sx={{ background: '#ffffff', padding: '0 6vw' }}
+              >
+                <Toolbar>
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2, fontWeight: 'bold', color: '#23C6B9' }}
+                    href="/"
+                  >
+                    DMNC
+                  </IconButton>
+                  <ul className={linkContainer}>
+                    <li>소개</li>
+                    <li>요금제 안내</li>
+                    <li>고객센터</li>
+                    <li>
+                      <Link href="/test">에디터 테스트</Link>
+                    </li>
+                  </ul>
+                  {/* <ul
+                    className={`${styles['link-container']} ${styles['align-right']}`}
+                  >
+                    <Login user={user}></Login>
+                    <li>
+                      <Link href="/auth/signup">회원가입</Link>
+                    </li>
+                    <li>
+                      <Button
+                        sx={[
+                          {
+                            background: '#2334C6',
+                            color: '#fff',
+                            fontWeight: 'bold',
+                            borderRadius: '20px',
+                            padding: '4px 20px',
+                          },
+                          (theme) => ({ '&:hover': { background: '#2334C6' } }),
+                        ]}
+                      >
+                        <Typography>바로 시작하기</Typography>
+                      </Button>
+                    </li>
+                  </ul> */}
+                </Toolbar>
+              </AppBar>
+            </Box>
+          </header>
+          {/* <Layout>
+            <Sidebar>
+              <Logo />
+              <Link className="navitem" href="/">
+                Home
+              </Link>
+              <Link className="navitem" href="/about">
+                About
+              </Link>
+              <Link className="navitem" href="/test">
+                Test
+              </Link>
+            </Sidebar>
+            <Content>{children}</Content>
+          </Layout> */}
+        </PageContextProvider>
+      </ThemeProvider>
     </React.StrictMode>
   );
 }
