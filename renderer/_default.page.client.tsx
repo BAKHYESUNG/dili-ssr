@@ -1,17 +1,23 @@
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
 import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { PageShell } from './PageShell';
 import type { PageContextClient } from './types';
 
 export { render };
-
 async function render(pageContext: PageContextClient) {
   const { Page, pageProps } = pageContext;
+  const cache = createCache({
+    key: 'custom',
+  });
   hydrateRoot(
     document.getElementById('page-view')!,
-    <PageShell pageContext={pageContext}>
-      <Page {...pageProps} />
-    </PageShell>
+    <CacheProvider value={cache}>
+      <PageShell pageContext={pageContext}>
+        <Page {...pageProps} />
+      </PageShell>
+    </CacheProvider>
   );
 }
 

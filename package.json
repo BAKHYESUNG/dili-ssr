@@ -7,8 +7,10 @@
     "server:prod": "cross-env NODE_ENV=production ts-node ./server"
   },
   "dependencies": {
+    "@emotion/cache": "^11.10.3",
     "@emotion/css": "^11.10.0",
     "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
     "@mui/material": "^5.10.8",
     "@types/compression": "^1.7.2",
